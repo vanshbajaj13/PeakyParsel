@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { Spinner } from "react-bootstrap";
 const SignUp = (props) => {
   const naviagate = useNavigate();
   useEffect(() => {
@@ -11,14 +11,15 @@ const SignUp = (props) => {
       naviagate("/");
     }
   }, [naviagate]);
-
+  
   const [user, setUser] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [loading, setLoading] = useState(false);
   const [response, setRespose] = useState({ status: false, message: "" });
-  const [alert, setAlert] = useState({status : false , message : ""});
+  const [alert, setAlert] = useState({ status: false, message: "" });
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -28,28 +29,35 @@ const SignUp = (props) => {
         [name]: value,
       };
     });
-}
+  }
 
-function validate(){
-      var validEmail = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+  function validate() {
+    var validEmail = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
     if (user.email.match(validEmail)) {
-        if (user.password.length >= 8) {
-            if (user.password === user.confirmPassword) {
-                setAlert({status : false , message : ""})
-                return true;
-            } else {
-                setAlert({status : true, message : "Password and confrim password should be same"});
-            }
+      if (user.password.length >= 8) {
+        if (user.password === user.confirmPassword) {
+          setAlert({ status: false, message: "" });
+          return true;
         } else {
-            setAlert({status : true, message : "Password must be atleast 8 character long"})
+          setAlert({
+            status: true,
+            message: "Password and confrim password should be same",
+          });
         }
+      } else {
+        setAlert({
+          status: true,
+          message: "Password must be atleast 8 character long",
+        });
+      }
     } else {
-        setAlert({status : true, message : "Enter valid email"})
+      setAlert({ status: true, message: "Enter valid email" });
     }
     return false;
   }
 
   const submitDetails = async (event) => {
+    setLoading(true);
     var valid = validate();
     if (valid) {
       try {
@@ -76,6 +84,7 @@ function validate(){
         }
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
     setUser({
@@ -122,7 +131,13 @@ function validate(){
             }}
           >
             {" "}
-            <h3 onClick={()=>{naviagate("/signin")}}>Sign In </h3>
+            <h3
+              onClick={() => {
+                naviagate("/signin");
+              }}
+            >
+              Sign In{" "}
+            </h3>
           </div>{" "}
           <div
             id="Sign-up"
@@ -138,7 +153,13 @@ function validate(){
             }}
           >
             {" "}
-            <h3 onClick={()=>{naviagate("/signup")}}>Sign up</h3>
+            <h3
+              onClick={() => {
+                naviagate("/signup");
+              }}
+            >
+              Sign up
+            </h3>
           </div>
         </div>
         <div
@@ -156,17 +177,23 @@ function validate(){
             height="57"
           />
         </div>
+        {loading && (
+        <div style={{ margin: "auto", width: "fit-content" }}>
+          <Spinner />
+        </div>
+      )}
         <div>{response.status && <Alert>{response.message}</Alert>}</div>
         <div>
-            {alert.status && (
-              <Alert variant="danger">
-                {alert.message}
-              </Alert>
-            )}
+          {alert.status && <Alert variant="danger">{alert.message}</Alert>}
           <form
             method="Post"
             action="signup"
-            style={{ display: "flex", flexDirection: "column", width: "100%",alignContent: "center" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              alignContent: "center",
+            }}
           >
             <input
               placeholder="Email address"
@@ -192,10 +219,7 @@ function validate(){
               name="confirmPassword"
               value={user.confirmPassword}
             ></input>
-            <Button
-              variant="success"
-              onClick={submitDetails}
-            >
+            <Button variant="success" onClick={submitDetails}>
               Sign Up
             </Button>
           </form>

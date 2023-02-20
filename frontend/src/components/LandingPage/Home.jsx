@@ -11,8 +11,6 @@ import { CSSTransition } from "react-transition-group";
 import { Spinner } from "react-bootstrap";
 
 const Home = () => {
-  // var date = new Date.getUTCDate();
-  // console.log(date.getUTCDate());
   const naviagate = useNavigate();
   const [userLogedIn, setUserLogedIn] = useState(false);
   const [cardInfo, setcardInfo] = useState([]);
@@ -48,7 +46,6 @@ const Home = () => {
       .get("requests", config)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
           setcardInfo(response.data);
           setLoading(false);
         }
@@ -172,7 +169,6 @@ const Home = () => {
       .then((response) => {
         setLoading(false);
         if (response.status === 200) {
-          console.log("successfully accepted");
           fetchRequests();
           window.open(
             `https://api.whatsapp.com/send/?phone=91${mobile}&text&type=phone_number`,
@@ -198,10 +194,8 @@ const Home = () => {
   window.addEventListener("scroll", (event) => {
     var scrollDiff = oldScrollY - window.scrollY;
     if (scrollDiff > 7) {
-      console.log("scroll up");
       setSearchPop(true);
     } else if (scrollDiff < -7) {
-      console.log("scroll down");
       setSearchPop(false);
     }
     oldScrollY = window.scrollY;

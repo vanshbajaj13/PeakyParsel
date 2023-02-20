@@ -15,15 +15,12 @@ const UserCard = (props) => {
             <button
               type="button"
               onClick={() => {
-                console.log("button pressed");
                 props.deleteRequest(props.requestId);
               }}
               onMouseEnter={()=>{
-                console.log("enter")
                 setHoverDel(true)
               }}
               onMouseLeave={()=>{
-                console.log("exit")
                 setHoverDel(false)
               }}
               style={{

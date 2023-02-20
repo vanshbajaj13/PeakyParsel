@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 const SignIn = (props) => {
   const naviagate = useNavigate();
@@ -16,6 +17,7 @@ const SignIn = (props) => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const [response, setRespose] = useState({ status: false, message: "" });
 
   function handleChange(event) {
@@ -29,6 +31,7 @@ const SignIn = (props) => {
   }
 
   const submitDetails = async (event) => {
+    setLoading(true);
     try {
       const config = {
         headers: {
@@ -54,12 +57,14 @@ const SignIn = (props) => {
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
     setUser({
       email: "",
       password: "",
       confirmPassword: "",
     });
+    // setLoading(false)
     event.preventDefault();
   };
   return (
@@ -145,6 +150,11 @@ const SignIn = (props) => {
             height="57"
           />
         </div>
+        {loading && (
+          <div style={{ margin: "auto", width: "fit-content" }}>
+            <Spinner />
+          </div>
+        )}
         <div>{response.status && <Alert>{response.message}</Alert>}</div>
         <div>
           <form

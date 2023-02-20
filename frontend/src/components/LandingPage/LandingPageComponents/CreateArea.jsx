@@ -55,14 +55,12 @@ const CreateArea = (props) => {
   function addRequest(event) {
     var ifNull = false;
     Object.values(cardDetail).forEach((value) => {
-      console.log(value);
       if (value === "" || value === undefined) {
         ifNull = true;
       }
     });
     if (!cardDetail.mobile.match(/^[6789]\d{9}$/)) {
       showError("enetr valid mobile number");
-      console.log("number not valis");
     } else {
       if (!ifNull) {
         props.addRequest({
