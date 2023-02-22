@@ -50,6 +50,7 @@ const SignIn = (props) => {
       } else {
         if (data) {
         }
+        setLoading(false);
         setRespose({ status: true, message: data });
         setTimeout(() => {
           setRespose({ status: false, message: "" });
@@ -64,7 +65,6 @@ const SignIn = (props) => {
       password: "",
       confirmPassword: "",
     });
-    // setLoading(false)
     event.preventDefault();
   };
   return (

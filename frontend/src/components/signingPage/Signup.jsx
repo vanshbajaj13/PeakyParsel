@@ -11,7 +11,7 @@ const SignUp = (props) => {
       naviagate("/");
     }
   }, [naviagate]);
-  
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -77,6 +77,7 @@ const SignUp = (props) => {
         } else {
           if (data) {
           }
+          setLoading(false);
           setRespose({ status: true, message: data });
           setTimeout(() => {
             setRespose({ status: false, message: "" });
@@ -178,10 +179,10 @@ const SignUp = (props) => {
           />
         </div>
         {loading && (
-        <div style={{ margin: "auto", width: "fit-content" }}>
-          <Spinner />
-        </div>
-      )}
+          <div style={{ margin: "auto", width: "fit-content" }}>
+            <Spinner />
+          </div>
+        )}
         <div>{response.status && <Alert>{response.message}</Alert>}</div>
         <div>
           {alert.status && <Alert variant="danger">{alert.message}</Alert>}
