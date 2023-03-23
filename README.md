@@ -1,5 +1,6 @@
 # PeakyParsel
 to run the website locally
+
 1 clone the repo
 
 2 add .env file in root folder
