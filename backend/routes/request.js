@@ -9,7 +9,8 @@ const protect = require("../middlewares/authMiddleWare");
 router.get("/", protect, (req, res) => {
   var date = Date.now();
   date = date - 86400000;
-  Request.find({ time: { $gte: date } }, (err, docs) => {
+  // { time: { $gte: date } }, add this in Request.find to get only last one day requests
+  Request.find((err, docs) => {
     if (err) {
       console.log(err);
     } else {
